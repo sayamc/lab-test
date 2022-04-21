@@ -22,11 +22,10 @@ jobs:
       - name: check path 
         run: |
              ls -lta
-      - name: build img
+      - name: build img             
         run: |
-              #cd Nodejs/github-action/
-              #sudo docker build -f Dockerfile -t node-test:1.0.0 .
-              docker build -f Dockerfile -t node-test:1.0.0 .
+              sudo docker build -f Dockerfile -t node-test:1.0.0 .
+
       - name: deploy  
         run: |
              if [ ! -z "$(docker ps | grep node-test)" ];then
@@ -35,7 +34,7 @@ jobs:
               docker run -d --name node-test -p 8080:3000 node-test:1.0.0
              else
               docker run -d --name node-test -p 8080:3000 node-test:1.0.0
-              fi
+             fi
   deploy:
     needs: build
     runs-on: self-hosted
