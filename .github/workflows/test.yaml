@@ -24,16 +24,17 @@ jobs:
              ls -lta
       - name: build img
         run: |
-              cd Nodejs/github-action/
-              sudo docker build -t myapp:1.0.0 . 
+              #cd Nodejs/github-action/
+              #sudo docker build -f Dockerfile -t node-test:1.0.0 .
+              docker build -f Dockerfile -t node-test:1.0.0 .
       - name: deploy  
         run: |
-             if [ ! -z "$(docker ps | grep myapp)" ];then
-              docker stop myapp
-              docker rm myapp
-              docker run -d --name myapp -p 8080:3000 myapp:1.0.0
+             if [ ! -z "$(docker ps | grep node-test)" ];then
+              docker stop node-test
+              docker rm node-test
+              docker run -d --name node-test -p 8080:3000 node-test:1.0.0
              else
-              docker run -d --name myapp -p 8080:3000 myapp:1.0.0
+              docker run -d --name node-test -p 8080:3000 node-test:1.0.0
               fi
   deploy:
     needs: build
