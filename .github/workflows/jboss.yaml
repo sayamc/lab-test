@@ -33,11 +33,11 @@ jobs:
 #      - name: deploy fe
 #        run: |
 #             if [ ! -z "$(docker ps | grep jboss-fe)" ];then
-#              docker stop jboss-fe
-#              docker rm jboss-fe
-#              docker run -d --network my-net --name jboss-fe -p 30080:8080 jboss/wildfly:8.1.0.Final-FE
+#              sudo docker stop jboss-fe
+#              sudo docker rm jboss-fe
+#              sudo docker run -d --network my-net --name jboss-fe -p 30080:8080 jboss/wildfly:8.1.0.Final-FE
 #             else
-#              docker run -d --network my-net --name jboss-fe -p 30080:8080 jboss/wildfly:8.1.0.Final-FE
+#              sudo docker run -d --network my-net --name jboss-fe -p 30080:8080 jboss/wildfly:8.1.0.Final-FE
 #             fi
 
       - name: deploy be1
