@@ -49,7 +49,6 @@ jobs:
              else
               sudo docker run -d --network my-net --name jboss-be1 -p 30180:8080 jboss/wildfly:24.0.0.Final-BE
              fi
-
   deploy:
     needs: build
     runs-on: self-hosted
