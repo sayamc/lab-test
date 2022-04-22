@@ -40,15 +40,15 @@ jobs:
               sudo docker run -d --network my-net --name jboss-be1 -p 30180:8080 jboss/wildfly:24.0.0.Final-BE
              fi
 
-#      - name: deploy fe
-#        run: |
-#             if [ ! -z "$(docker ps | grep jboss-fe)" ];then
-#              sudo docker stop jboss-fe
-#              sudo docker rm jboss-fe
-#              sudo docker run -d --network my-net --name jboss-fe -p 30080:8080 jboss/wildfly:8.1.0.Final-FE
-#             else
-#              sudo docker run -d --network my-net --name jboss-fe -p 30080:8080 jboss/wildfly:8.1.0.Final-FE
-#             fi
+      - name: deploy fe
+        run: |
+             if [ ! -z "$(docker ps | grep jboss-fe)" ];then
+              sudo docker stop jboss-fe
+              sudo docker rm jboss-fe
+              sudo docker run -d --network my-net --name jboss-fe -p 30080:8080 jboss/wildfly:8.1.0.Final-FE
+             else
+              sudo docker run -d --network my-net --name jboss-fe -p 30080:8080 jboss/wildfly:8.1.0.Final-FE
+             fi
 
   deploy:
     needs: build
@@ -56,8 +56,12 @@ jobs:
     steps:
 #      - name: test-be1
 #        run: curl 127.0.0.1:30180
-      - name: test-be1
+      - name: test-fe
         run: |
+             curl 127.0.0.1:30080/getBE > /tmp/fe-getBE.tmp
              curl 127.0.0.1:30180 > /tmp/be1.tmp
+      - name: stop-container
+        run: |
+             sudo docker stop jboss-fe && sudo docker rm jboss-fe
              sudo docker stop jboss-be1 && sudo docker rm jboss-be1
 
