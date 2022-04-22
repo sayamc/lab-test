@@ -58,6 +58,6 @@ jobs:
 #        run: curl 127.0.0.1:30180
       - name: test-be1
         run: |
-             curl 127.0.0.1:30180
+             curl 127.0.0.1:30180 > /tmp/be1.tmp
              sudo docker stop jboss-be1 && sudo docker rm jboss-be1
 
