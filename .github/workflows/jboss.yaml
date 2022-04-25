@@ -32,22 +32,22 @@ jobs:
 
       - name: deploy be1
         run: |
-             if [ ! -z "$(docker ps | grep jboss-be1)" ];then
-              sudo docker stop jboss-be1
-              sudo docker rm jboss-be1
-              sudo docker run -d --network my-net --name jboss-be1 -p 30180:8080 jboss/wildfly:24.0.0.Final-BE
+             if [ ! -z "$(docker ps -a| grep jboss-be1)" ];then
+              docker stop jboss-be1
+              docker rm jboss-be1
+              docker run -d --network my-net --name jboss-be1 -p 30180:8080 jboss/wildfly:24.0.0.Final-BE
              else
-              sudo docker run -d --network my-net --name jboss-be1 -p 30180:8080 jboss/wildfly:24.0.0.Final-BE
+              docker run -d --network my-net --name jboss-be1 -p 30180:8080 jboss/wildfly:24.0.0.Final-BE
              fi
 
       - name: deploy fe
         run: |
-             if [ ! -z "$(docker ps | grep jboss-fe)" ];then
-              sudo docker stop jboss-fe
-              sudo docker rm jboss-fe
-              sudo docker run -d --network my-net --name jboss-fe -p 30080:8080 jboss/wildfly:8.1.0.Final-FE
+             if [ ! -z "$(docker ps -a| grep jboss-fe)" ];then
+              docker stop jboss-fe
+              docker rm jboss-fe
+              docker run -d --network my-net --name jboss-fe -p 30080:8080 jboss/wildfly:8.1.0.Final-FE
              else
-              sudo docker run -d --network my-net --name jboss-fe -p 30080:8080 jboss/wildfly:8.1.0.Final-FE
+              docker run -d --network my-net --name jboss-fe -p 30080:8080 jboss/wildfly:8.1.0.Final-FE
              fi
 
   deploy:
@@ -56,12 +56,12 @@ jobs:
     steps:
 #      - name: test-be1
 #        run: curl 127.0.0.1:30180
-      - name: test-fe
+      - name: test-fe-be1
         run: |
              curl 127.0.0.1:30080/getBE > /tmp/fe-getBE.tmp
              curl 127.0.0.1:30180 > /tmp/be1.tmp
       - name: stop-container
         run: |
-             sudo docker stop jboss-fe && sudo docker rm jboss-fe
-             sudo docker stop jboss-be1 && sudo docker rm jboss-be1
+             docker stop jboss-fe && docker rm jboss-fe
+             docker stop jboss-be1 && docker rm jboss-be1
 
